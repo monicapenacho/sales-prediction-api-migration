@@ -5,7 +5,7 @@ on:
     branches: [ main ]
 
 jobs:
-  build-test:
+  build-test-deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -27,3 +27,15 @@ jobs:
 
     - name: Build Docker image
       run: docker build -t sales-api .
+
+    # 🔹 LOGIN A ACR (forma correcta y simple)
+    - name: Login to ACR
+      run: docker login ${{ secrets.ACR_LOGIN_SERVER }} \
+           -u ${{ secrets.ACR_USERNAME }} \
+           -p ${{ secrets.ACR_PASSWORD }}
+
+    - name: Tag image
+      run: docker tag sales-api ${{ secrets.ACR_LOGIN_SERVER }}/sales-api:latest
+
+    - name: Push image
+      run: docker push ${{ secrets.ACR_LOGIN_SERVER }}/sales-api:latest
