@@ -5,7 +5,7 @@ on:
     branches: [ main ]
 
 jobs:
-  build-test-deploy:
+  build-test:
     runs-on: ubuntu-latest
 
     steps:
@@ -27,17 +27,3 @@ jobs:
 
     - name: Build Docker image
       run: docker build -t sales-api .
-
-    - name: Azure Login
-      uses: azure/login@v1
-      with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
-
-    - name: ACR Login
-      run: az acr login --name <tu-acr>
-
-    - name: Tag image
-      run: docker tag sales-api <tu-acr>.azurecr.io/sales-api:latest
-
-    - name: Push image
-      run: docker push <tu-acr>.azurecr.io/sales-api:latest
