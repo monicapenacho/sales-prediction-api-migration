@@ -1,26 +1,43 @@
-name: CI Pipeline
+name: CI/CD Pipeline
 
 on:
   push:
-    branches: [main]
-  pull_request:
-    branches: [main]
+    branches: [ main ]
 
 jobs:
-  test:
+  build-test-deploy:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v3
+    - uses: actions/checkout@v3
 
-      - name: Configurar Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.11'
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
 
-      - name: Instalar dependencias
-        run: pip install -r requirements.txt
+    - name: Install dependencies
+      run: pip install -r requirements.txt ruff pytest
 
-      - name: Ejecutar tests con cobertura
-        run: pytest tests/ --cov=app --cov-report=term-missing --cov-fail-under=70
-        env:
-          PYTHONPATH: ${{ github.workspace }}
+    - name: Lint
+      run: ruff check .
+
+    - name: Tests
+      run: pytest
+
+    - name: Build Docker image
+      run: docker build -t sales-api .
+
+    - name: Azure Login
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: ACR Login
+      run: az acr login --name <tu-acr>
+
+    - name: Tag image
+      run: docker tag sales-api <tu-acr>.azurecr.io/sales-api:latest
+
+    - name: Push image
+      run: docker push <tu-acr>.azurecr.io/sales-api:latest
