@@ -30,9 +30,7 @@ jobs:
 
     # 🔹 LOGIN A ACR (forma correcta y simple)
     - name: Login to ACR
-      run: docker login ${{ secrets.ACR_LOGIN_SERVER }} \
-           -u ${{ secrets.ACR_USERNAME }} \
-           -p ${{ secrets.ACR_PASSWORD }}
+      run: docker login ${{ secrets.ACR_LOGIN_SERVER }} -u ${{ secrets.ACR_USERNAME }} -p ${{ secrets.ACR_PASSWORD }}
 
     - name: Tag image
       run: docker tag sales-api ${{ secrets.ACR_LOGIN_SERVER }}/sales-api:latest
