@@ -225,3 +225,4 @@ Los conceptos aplicados (Terraform, Docker, CI/CD) son equivalentes en ambas pla
 | Cloud | Microsoft Azure | — |
 | Tests | pytest + pytest-cov | 8.1.1 |
 | Lint | ruff | 0.4.4 |
+
