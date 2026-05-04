@@ -2,38 +2,53 @@ name: CI/CD Pipeline
 
 on:
   push:
-    branches: [ main ]
+    branches: ["**"]
+  pull_request:
+    branches: [principal]
 
 jobs:
-  build-test-deploy:
+  lint-and-test:
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.11'
+      - name: Configurar Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
 
-    - name: Install dependencies
-      run: pip install -r requirements.txt ruff pytest
+      - name: Instalar dependencias
+        run: pip install -r requirements.txt
 
-    - name: Lint
-      run: ruff check app tests
+      - name: Lint con ruff
+        run: ruff check app/ tests/
 
-    - name: Tests
-      run: pytest
+      - name: Ejecutar tests con cobertura
+        run: |
+          pytest tests/ \
+            --cov=app \
+            --cov-report=term-missing \
+            --cov-fail-under=70 \
+            -v
+        env:
+          PYTHONPATH: ${{ github.workspace }}
 
-    - name: Build Docker image
-      run: docker build -t sales-api .
+  build-and-push:
+    needs: lint-and-test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/principal'
+    steps:
+      - uses: actions/checkout@v4
 
-    # 🔹 LOGIN A ACR (forma correcta y simple)
-    - name: Login to ACR
-      run: docker login ${{ secrets.ACR_LOGIN_SERVER }} -u ${{ secrets.ACR_USERNAME }} -p ${{ secrets.ACR_PASSWORD }}
+      - name: Build Docker image
+        run: docker build -t sales-api .
 
-    - name: Tag image
-      run: docker tag sales-api ${{ secrets.ACR_LOGIN_SERVER }}/sales-api:latest
+      - name: Login to ACR
+        run: docker login ${{ secrets.ACR_LOGIN_SERVER }} -u ${{ secrets.ACR_USERNAME }} -p ${{ secrets.ACR_PASSWORD }}
 
-    - name: Push image
-      run: docker push ${{ secrets.ACR_LOGIN_SERVER }}/sales-api:latest
+      - name: Tag image
+        run: docker tag sales-api ${{ secrets.ACR_LOGIN_SERVER }}/sales-api:latest
+
+      - name: Push image
+        run: docker push ${{ secrets.ACR_LOGIN_SERVER }}/sales-api:latest
