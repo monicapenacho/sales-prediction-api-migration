@@ -21,3 +21,18 @@ variable "entorno" {
   type        = string
   default     = "dev"
 }
+
+
+variable "acr_login_server" {
+  type        = string
+  description = "Login server del ACR: <nombre>.azurecr.io"
+}
+
+variable "acr_username" {
+  type = string
+}
+
+variable "acr_password" {
+  type      = string
+  sensitive = true
+}
