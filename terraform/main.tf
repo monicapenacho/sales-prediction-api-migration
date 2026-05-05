@@ -1,4 +1,5 @@
 terraform {
+  required_version = ">= 1.5"
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
@@ -42,7 +43,8 @@ resource "azurerm_container_group" "api" {
   }
 
   tags = {
-    environment = "production"
+    environment = var.entorno
     project     = "abc-analytics-migration"
+    asignatura  = "20GIAR"
   }
 }

@@ -15,3 +15,9 @@ variable "api_image" {
   type        = string
   default     = "tiangolo/uvicorn-gunicorn-fastapi:python3.11"
 }
+
+variable "entorno" {
+  description = "Entorno: dev | staging | prod"
+  type        = string
+  default     = "dev"
+}
