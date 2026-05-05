@@ -24,7 +24,7 @@ resource "azurerm_container_group" "api" {
   resource_group_name = azurerm_resource_group.rg.name
   os_type             = "Linux"
   ip_address_type     = "Public"
-  dns_name_label      = "abc-analytics-api"
+  dns_name_label      = "abc-analytics-api-juanmonica"
 
   restart_policy = "Always"
 
