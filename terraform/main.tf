@@ -26,9 +26,17 @@ resource "azurerm_container_group" "api" {
   ip_address_type     = "Public"
   dns_name_label      = "abc-analytics-api"
 
+  restart_policy = "Always"
+
+  image_registry_credential {
+    server   = var.acr_login_server
+    username = var.acr_username
+    password = var.acr_password
+}
+
   container {
     name   = "sales-api"
-    image  = "tiangolo/uvicorn-gunicorn-fastapi:python3.11"
+    image = "${var.acr_login_server}/sales-api:latest"
     cpu    = "0.5"
     memory = "1.5"
 
