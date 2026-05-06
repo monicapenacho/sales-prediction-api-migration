@@ -4,7 +4,7 @@
 
 **Equipo:** Juan Manuel Campos Enrique / Mónica Penacho  
 **Proyecto elegido:** Proyecto 3 — Migración Cloud  
-**Repositorio:** https://github.com/jmcampos-sec/sales-prediction-api-migration
+**Repositorio:** https://github.com/monicapenacho/sales-prediction-api-migration
 
 ---
 
@@ -30,7 +30,7 @@ GITHUB REPOSITORY
 │                               ruff + pytest
 │                               cobertura ≥ 70%
 │
-└─(push a principal)─────► Job: build-and-push
+└─(push a main)─────► Job: build-and-push
 Build Docker image
 Push a Azure Container Registry
 AZURE (Spain Central)
@@ -55,7 +55,7 @@ Puerto 8000 — IP Pública
 
 ```bash
 # 1. Clonar el repositorio
-git clone https://github.com/jmcampos-sec/sales-prediction-api-migration
+git clone https://github.com/monicapenacho/sales-prediction-api-migration
 cd sales-prediction-api-migration
 
 # 2. Crear entorno virtual e instalar dependencias
@@ -155,7 +155,7 @@ terraform apply
 ```
 
 URL de la API desplegada:
-http://abc-analytics-api.spaincentral.azurecontainer.io:8000
+http://abc-analytics-api-juanmonica.spaincentral.azurecontainer.io:8000
 
 ---
 
@@ -195,7 +195,7 @@ Proyecto gestionado con **Scrum** y sprints de 2 semanas:
 |--------|----------|--------|
 | Sprint 1 | API FastAPI + Docker + Tests | ✅ Completado |
 | Sprint 2 | CI/CD + Cobertura ≥70% | ✅ Completado |
-| Sprint 3 | Terraform + Azure | 🔄 En curso |
+| Sprint 3 | Terraform + Azure | ✅ Completado |
 
 Tablero Kanban disponible en **GitHub Projects**.
 
