@@ -87,7 +87,7 @@ pytest tests/ --cov=app --cov-report=term-missing
 # 4. Levantar la API en Docker
 docker-compose up --build
 
-# 5. Probar la API
+# 5. Probar la API (local)
 curl http://localhost:8000/health
 
 curl -X POST http://localhost:8000/predict \
@@ -95,9 +95,13 @@ curl -X POST http://localhost:8000/predict \
   -d '{"product": "ProductoA", "base_sales": 1000.0, "month": 5}'
 ```
 
-### Documentación Swagger
+### Documentación Swagger (local)
 
 Con la API en marcha, accede a la documentación automática en: http://localhost:8000/docs
+
+### Documentación Swagger (producción)
+
+API desplegada en Azure: http://abc-analytics-api-juanmonica.spaincentral.azurecontainer.io:8000/docs
 
 ---
 
@@ -119,34 +123,33 @@ Con la API en marcha, accede a la documentación automática en: http://localhos
 
 ```
 sales-prediction-api-migration/
-├── .github/workflows/
-│   └── ci.yml                  # Pipeline CI/CD (lint + tests + build + push)
+├── .github/
+│   └── workflows/
+│       └── ci.yml                        # Pipeline CI/CD (lint + tests + build + push)
 ├── app/
 │   ├── __init__.py
-│   ├── main.py                 # API FastAPI: /, /health, /predict
-│   └── models.py               # Pydantic schemas
+│   ├── main.py                           # API FastAPI: /, /health, /predict
+│   └── models.py                         # Pydantic schemas
 ├── tests/
 │   ├── __init__.py
-│   └── test_main.py            # Tests unitarios de todos los endpoints
+│   └── test_main.py                      # Tests unitarios de todos los endpoints
 ├── terraform/
-│   ├── main.tf                 # Recursos Azure (Resource Group + ACR + Container Instance)
-│   ├── variables.tf            # Variables de configuración
-│   └── outputs.tf              # Outputs (URL pública, resource group, location)
+│   ├── main.tf                           # Recursos Azure (Resource Group + ACR + Container Instance)
+│   ├── variables.tf                      # Variables de configuración
+│   └── outputs.tf                        # Outputs (URL pública, resource group, location)
 ├── portfolio/
-│   └── Portfolio_ABC_Analysis.ipynb  # Motor 6R, Wave Planning y arquitectura cloud objetivo
-├── docs/
-│   ├── memoria_proyecto.md     # Memoria completa del proyecto
-│   ├── product_backlog.md      # Product Backlog con User Stories
-│   └── sprints/
-│       ├── sprint1_planning.md
-│       ├── sprint2_planning.md
-│       ├── sprint3_planning.md
-│       └── retrospectiva.md
+│   └── Portfolio_ABC_Analysis.ipynb      # Motor 6R, Wave Planning y arquitectura cloud objetivo
+├── agile/                                # Documentación metodología ágil (sprints, backlog)
+├── evidencias/
+│   └── 20GIAR_Evidencias.docx            # Evidencias del proyecto
 ├── presentacion/
-│   └── guia_presentacion.md   # Guía de presentación con timings
-├── Dockerfile                  # Imagen Docker de la API
-├── docker-compose.yml          # Para desarrollo local
-└── requirements.txt            # Dependencias Python
+│   ├── ABC_Analytics_Presentacion_20GIAR_vfinal.pptx
+│   ├── Memoria_ABC_Analytics_20GIAR_vf.pdf
+│   └── Migracion_Cloud_Evidencias.docx
+├── Dockerfile                            # Imagen Docker de la API
+├── docker-compose.yml                    # Para desarrollo local
+├── requirements.txt                      # Dependencias Python
+└── requirements-dev.txt                  # Dependencias de desarrollo
 ```
 
 ---
@@ -183,9 +186,6 @@ terraform apply
 
 **URL de la API desplegada:**  
 http://abc-analytics-api-juanmonica.spaincentral.azurecontainer.io:8000
-
-**Swagger UI (producción):**  
-http://abc-analytics-api-juanmonica.spaincentral.azurecontainer.io:8000/docs
 
 ---
 
